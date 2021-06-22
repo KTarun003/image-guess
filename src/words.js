@@ -1,4 +1,5 @@
-const words = {0: 'tench, Tinca tinca',
+const words = {
+	0: 'tench, Tinca tinca',
 	1: 'goldfish, Carassius auratus',
 	2: 'great white shark, white shark, man-eater, man-eating shark, Carcharodon carcharias',
 	3: 'tiger shark, Galeocerdo cuvieri',
@@ -997,6 +998,7 @@ const words = {0: 'tench, Tinca tinca',
 	996: 'hen-of-the-woods, hen of the woods, Polyporus frondosus, Grifola frondosa',
 	997: 'bolete',
 	998: 'ear, spike, capitulum',
-	999: 'toilet tissue, toilet paper, bathroom tissue'}
+	999: 'toilet tissue, toilet paper, bathroom tissue'
+};
 
 export default words;
