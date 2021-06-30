@@ -18,6 +18,7 @@ class App extends Component {
             src:"",
             input:"",
             word: words[Math.floor(Math.random() * 1000)],
+            prediction: "",
             win:false
         }
     }
@@ -30,9 +31,15 @@ class App extends Component {
         const imagesApi = new sstk.ImagesApi();
         imagesApi.searchImages(queryParams)
             .then(({data}) => {
-                let index = Math.floor(Math.random() * 20);
-                this.setState({src: data[index].assets.preview.url});
-                console.log(data[index].assets.preview.url);
+                if(data.length === 0){
+                    alert("Error: Fetching Image!!");
+                }
+                else {
+                    let index = Math.floor(Math.random() * 20);
+                    console.log(index)
+                    this.setState({src: data[index].assets.preview.url});
+                    console.log(data[index].assets.preview.url);
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -51,24 +58,45 @@ class App extends Component {
         }
     }
 
+    predictWord(){
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: this.state.src })
+        };
+        fetch('http://127.0.0.1:5000/', requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState({ prediction: data.word }));
+    }
+
     render() {
         return (
             <div className="App">
                 <header className="App-header">
                     <h1>Image Guess Game</h1>
                 </header>
-                <div className="row">
-                    <div className="col-md-2"/>
-                    <img className="col-md-8" src={this.state.src} alt="The Word" height="300" width="300"/>
-                    <div className="col-md-2"/>
-                </div>
-                <div className="row">
-                        <div className="col-md-2"/>
+                <div className="container">
+                    <div className="row">
+                        <img className="col-md-8" src={this.state.src} alt="The Word" height="350" width="350"/>
+                    </div>
+                    <div className="row">
                         <input className="col-md-6 " type="text" value={this.state.input} onChange={this.handleInput.bind(this)}/>
-                    <button className="col-md-2" type="submit" onClick={this.handleSubmit.bind(this)} >Submit</button>
-                        <div className="col-md-2"/>
+                        <button className="col-md-2 btn btn-primary" type="submit" onClick={this.handleSubmit.bind(this)} >Submit</button>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-4">
+                            <label>Do you want to predict word using AI?</label>
+                        </div>
+                        <div className="col-md-2">
+                            <button className="btn btn-success" onClick={this.predictWord.bind(this)} >Yes</button>
+                        </div>
+                        <div className="col-md-4">
+                            <label>Predicted Word : </label>
+                            <h4>{this.state.prediction}</h4>
+                        </div>
+                    </div>
+                    {this.state.win?winText:""}
                 </div>
-                {this.state.win?winText:""}
             </div>
         );
     }

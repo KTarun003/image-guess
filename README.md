@@ -4,6 +4,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## [Click here to check it out!](https://fast-sierra-05238.herokuapp.com/)
 
+## Flask API
+
+The api is simple flask application which only accepts one post request.
+
 ## Available Scripts
 
 In the project directory, you can run:
